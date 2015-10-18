@@ -15,7 +15,7 @@ I2C has to be configured on Raspberry Pi :
 
 [www.cube-controls.com/blog/how-to-enable-i2c-on-raspberry-pi](http://www.cube-controls.com/blog/how-to-enable-i2c-on-raspberry-pi)
 
-## writeDO Node - Control Pi-Cubes DO4 Output Module
+## writeDO Node - Control Pi-Cubes DO4 Module
 
 
 ![](./docs/writedo_node.png)

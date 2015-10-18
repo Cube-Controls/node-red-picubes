@@ -1,6 +1,6 @@
 {
   "name": "node-red-picubes",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pi-Cubes Nodes for node-red",
   "dependencies": {
     "node-picubes": "^1.0.4",
