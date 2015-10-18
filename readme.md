@@ -233,6 +233,25 @@ Execute hysteresis relay operation to provide ON/OFF function with hysteresis.
 
 	[{"id":"ad3ae325.52c52","type":"monitor","name":"Value","x":892,"y":624,"z":"a6eb50.ff5914b","wires":[[]]},{"id":"544f192.fabb0e8","type":"constant","name":"","value":"1","repeat":"1","x":242,"y":429,"z":"a6eb50.ff5914b","wires":[["c6fd80dc.39028"]]},{"id":"507c50ff.af83b","type":"constant","name":"Y0","value":"15","repeat":"5","x":431,"y":590,"z":"a6eb50.ff5914b","wires":[["4c4b84cb.b3b47c"]]},{"id":"6d1b44af.92e4bc","type":"constant","name":"Y1","value":"10","repeat":"5","x":431,"y":653,"z":"a6eb50.ff5914b","wires":[["4c4b84cb.b3b47c"]]},{"id":"4c4b84cb.b3b47c","type":"hysteresis","name":"Relay","topicX":"X0","topicY0":"Y0","topicY1":"Y1","x":657,"y":627,"z":"a6eb50.ff5914b","wires":[["ad3ae325.52c52"]]},{"id":"6f00c7d4.90ff38","type":"monitor","name":"X0","x":433,"y":517,"z":"a6eb50.ff5914b","wires":[["4c4b84cb.b3b47c"]]},{"id":"c6fd80dc.39028","type":"function","name":"RampUpDown","func":"context.counter = context.counter || 0; \ncontext.down = context.down || 0; \n\nif (context.down == 1)\n{\n  context.counter--;\n  if (context.counter === 0) context.down = 0;\n} else\n{\n  context.counter++;\n  if (context.counter == 20) context.down = 1;\n}\n\nvar newMsg = { payload: context.counter };\nreturn newMsg;\n","outputs":1,"noerr":0,"x":421,"y":428,"z":"a6eb50.ff5914b","wires":[["6f00c7d4.90ff38"]]}]
 
+
+
+## Delay-On-Off Node - On/OFF Delay function  
+
+
+![](./docs/delayonoff_node.png)
+
+![](./docs/delayonoff_dialog.png)
+
+#### Usage
+
+- Name - Node name that is used as topic in output message as well.
+- Delay On - Time in seconds that output will stay Off(0) until switches to On(1).
+- Delay Off - Time in seconds that output will stay On(1) until switches to Off(0).
+
+Provides On/Off delay on digital 0/1 messages. 
+
+
+
 License
 ----
 
