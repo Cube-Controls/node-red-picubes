@@ -1,0 +1,91 @@
+<script type="text/javascript">
+    RED.nodes.registerType('readUI',{
+        category: 'PiCubes',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            module: {value:"1"},
+            input: {value:"1"},
+			uitype: {value:"0"},
+			unit: {value:"0"},
+			scan: {value:"1"}
+			
+            
+        },
+        inputs:0,
+        outputs:1,
+        icon: "picubes.png",
+        label: function() {
+			if (this.name == "") return "readUI";
+			else                 return "readUI"+"->"+this.name;
+        },
+        oneditprepare: function() 
+		{
+			$("#node-input-uitype").change(function() {
+				var id = $("#node-input-uitype option:selected").val();
+				
+				if (id == "3") $("#node-input-unit-div").show();
+				else 		   $("#node-input-unit-div").hide();
+			});
+			$(".node-input-scan-class").spinner({
+                max:255,
+                min:1
+            });
+        }		
+    });
+</script>
+
+<script type="text/x-red" data-template-name="readUI">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-module"><i class="icon-list"></i> Module</label>
+        <select id="node-input-module" style="width:125px !important">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+    </div>  
+    <div class="form-row">
+        <label for="node-input-input"><i class="icon-list"></i> Input</label>
+        <select id="node-input-input" style="width:125px !important">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+    </div>
+    <div class="form-row" >
+        <label for="node-input-uitype"><i class="icon-list"></i> Type</label>
+        <select id="node-input-uitype" style="width:250px !important">
+            <option value="0">Resistance</option>
+            <option value="1">Digital</option>
+            <option value="2">Voltage/Current</option>
+			<option value="3">Temperature 10K Type II</option>
+			<option value="4">Pulse</option>
+        </select>
+    </div>	
+	
+	<div class="form-row hidden" id="node-input-unit-div" >
+        <label for="node-input-unit"><i class="icon-list"></i> Unit</label>
+        <select id="node-input-unit" style="width:250px !important">
+            <option value="0">Celsius</option>
+            <option value="1">Fahrenheit</option>
+        </select>
+    </div>	
+	
+    <div class="form-row time-row" id="node-input-scan-div">
+		<label for="node-input-scan"><i class="icon-time"></i> Scan time</label>
+        <input id="node-input-scan" style="width: 40px !important;" class="node-input-scan-class" value="1"> Seconds</input>
+    </div>
+	
+</script>
+
+<script type="text/x-red" data-help-name="readUI">
+    <p>Node that reads Pi-Cubes UI4 modules</p>
+</script>

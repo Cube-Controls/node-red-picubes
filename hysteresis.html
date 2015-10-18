@@ -1,0 +1,46 @@
+<script type="text/javascript">
+    RED.nodes.registerType('hysteresis',{
+        category: 'PiCubes',
+        color: '#c6dbef',
+		defaults: {
+            name: {value:""},
+			topicX : {value:""},
+            topicY0 : {value:""},		
+            topicY1 : {value:""}			
+        },
+        inputs:1,
+        outputs:1,
+        align: "right",
+        icon: "function.png",
+        label: function() {
+			if (this.name == "") return "hysteresis";
+			else                 return "hysteresis"+"->"+this.name;
+        }		
+    });
+</script>
+
+<script type="text/x-red" data-template-name="hysteresis">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+	    </div>
+		<div class="form-row" id="node-input-topicX-div">
+        <label for="node-input-topicX"><i class="icon-tag"></i> Topic X</label>
+        <input type="text" id="node-input-topicX" placeholder="Topic X">
+    </div>	
+	
+	<div class="form-row" id="node-input-topicY0-div">
+        <label for="node-input-topicY0"><i class="icon-tag"></i> Topic Y0</label>
+        <input type="text" id="node-input-topicY0" placeholder="Topic Y0">
+    </div>
+
+	<div class="form-row" id="node-input-topicY1-div">
+        <label for="node-input-topicY1"><i class="icon-tag"></i> Topic Y1</label>
+        <input type="text" id="node-input-topicY1" placeholder="Topic Y1">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="hysteresis">
+    <p>Node that implelents hysteresis block!</p>
+</script>

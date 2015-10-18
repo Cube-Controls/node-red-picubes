@@ -1,0 +1,101 @@
+<script type="text/javascript">
+    RED.nodes.registerType('math',{
+        category: 'PiCubes',
+        color: '#c6dbef',
+        defaults: {
+		    name: {value:""},	
+            math: {value:"Add"},
+			number: {value:"2"},	
+            topicY0 : {value:""},		
+            topicY1 : {value:""},
+            topicY2 : {value:""},
+			topicY3 : {value:""}
+			},
+        inputs:1,
+        outputs:1,
+        align: "right",
+        icon: "function.png",
+        label: function() {
+		    if (this.name == "") return this.math;
+			else                 return this.math+"->"+this.name;
+        },
+        oneditprepare: function() 
+		{
+			$("#node-input-number").change(function() {
+				var id = $("#node-input-number option:selected").val();
+				
+				if (id =="2") 
+				{
+					$("#node-input-topicY2-div").hide();
+					$("#node-input-topicY3-div").hide();
+				} else
+				if (id =="3") 
+				{
+					$("#node-input-topicY2-div").show();
+					$("#node-input-topicY3-div").hide();
+				} else			
+				if (id =="4") 
+				{
+					$("#node-input-topicY2-div").show();
+					$("#node-input-topicY3-div").show();
+				}				
+				
+			});
+        }		
+    });
+</script>
+
+<script type="text/x-red" data-template-name="math">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+	
+    <div class="form-row">
+        <label for="node-input-math"><i class="icon-tag"></i> Function</label>
+        <select id="node-input-math" style="width:125px !important">
+            <option value="Add">Add</option>
+            <option value="Sub">Sub</option>
+            <option value="Div">Div</option>
+            <option value="Mul">Mul</option>
+            <option value="Max">Max</option>
+			<option value="Min">Min</option>
+			<option value="Avg">Avg</option>
+        </select>
+    </div>
+	
+    <div class="form-row" id="node-input-number-div">
+        <label for="node-input-number"><i class="icon-tag"></i> Inputs</label>
+        <select id="node-input-number" style="width:125px !important">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+    </div>	
+	
+	<div class="form-row" id="node-input-topicY0-div">
+        <label for="node-input-topicY0"><i class="icon-tag"></i> Topic Y0</label>
+        <input type="text" id="node-input-topicY0" placeholder="Topic Y0">
+    </div>
+
+	<div class="form-row" id="node-input-topicY1-div">
+        <label for="node-input-topicY1"><i class="icon-tag"></i> Topic Y1</label>
+        <input type="text" id="node-input-topicY1" placeholder="Topic Y1">
+    </div>
+
+	<div class="form-row hidden" id="node-input-topicY2-div">
+        <label for="node-input-topicY2"><i class="icon-tag"></i> Topic Y2</label>
+        <input type="text" id="node-input-topicY2" placeholder="Topic Y2">
+    </div>
+
+	<div class="form-row hidden" id="node-input-topicY3-div">
+        <label for="node-input-topicY3"><i class="icon-tag"></i> Topic Y3</label>
+        <input type="text" id="node-input-topicY3" placeholder="Topic Y3">
+    </div>	
+	
+	
+</script>
+
+<script type="text/x-red" data-help-name="math">
+    <p>Math Functions Node</p>
+</script>

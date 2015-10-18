@@ -1,0 +1,70 @@
+<script type="text/javascript">
+    RED.nodes.registerType('compare',{
+        category: 'PiCubes',
+        color: '#c6dbef',
+        defaults: {
+		    name: {value:""},
+            operator: {value:"GT"},
+			topicX : {value:""},
+            topicY0 : {value:""},		
+            topicY1 : {value:""}			
+        },
+        inputs:1,
+        outputs:1,
+        align: "right",
+        icon: "switch.png",
+        label: function() {
+		    if (this.name == "") return this.operator;
+			else                 return this.operator+"->"+this.name;
+        },
+		oneditprepare: function() 
+		{
+			$("#node-input-operator").change(function() {
+				var id = $("#node-input-operator option:selected").val();
+				
+				if (id =="BTW") $("#node-input-topicX-div").show();
+				else			$("#node-input-topicX-div").hide();
+			});
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="compare">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-operator"><i class="icon-tag"></i> Operator</label>
+        <select id="node-input-operator" style="width:185px !important">
+            <option value="GT">Greater Than</option>
+            <option value="GTE">Greater or Equal</option>
+            <option value="EQU">Equal</option>
+            <option value="BTW">Between</option>
+            <option value="NEQ">Not Equal</option>
+			<option value="LT">Less Than</option>
+			<option value="LTE">Less or Equal</option>
+        </select>
+    </div>
+		<div class="form-row hidden" id="node-input-topicX-div">
+        <label for="node-input-topicX"><i class="icon-tag"></i> Topic X</label>
+        <input type="text" id="node-input-topicX" placeholder="Topic X">
+    </div>	
+	
+	<div class="form-row" id="node-input-topicY0-div">
+        <label for="node-input-topicY0"><i class="icon-tag"></i> Topic Y0</label>
+        <input type="text" id="node-input-topicY0" placeholder="Topic Y0">
+    </div>
+
+	<div class="form-row" id="node-input-topicY1-div">
+        <label for="node-input-topicY1"><i class="icon-tag"></i> Topic Y1</label>
+        <input type="text" id="node-input-topicY1" placeholder="Topic Y1">
+    </div>
+</script>
+
+
+
+<script type="text/x-red" data-help-name="compare">
+    <p>Compare Functions Node</p>
+</script>

@@ -1,0 +1,43 @@
+<script type="text/javascript">
+    RED.nodes.registerType('delay-on-off',{
+        category: 'PiCubes',
+        color: '#c6dbef',
+		defaults: {
+            name: {value:""},
+			delayon: {value:"0"},
+			delayoff: {value:"0"}	
+			
+        },
+        inputs:1,
+        outputs:1,
+        align: "right",
+        icon: "timer.png",
+        label: function() {
+			if (this.name == "") return "delay-on-off";
+			else                 return "delay-on-off"+"->"+this.name;
+        }		
+    });
+</script>
+
+<script type="text/x-red" data-template-name="delay-on-off">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+	
+	<div class="form-row">
+        <label for="node-input-delayon"><i class="icon-tag"></i> Delay On</label>
+        <input type="number" step="any" id="node-input-delayon" placeholder="Value">
+    </div>
+
+	<div class="form-row">
+        <label for="node-input-delayoff"><i class="icon-tag"></i> Delay Off</label>
+        <input type="number" step="any" id="node-input-delayoff" placeholder="Value">
+    </div>
+	
+	
+</script>
+
+<script type="text/x-red" data-help-name="delay-on-off">
+    <p>Delay On/Off Node!</p>
+</script>

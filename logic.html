@@ -1,0 +1,129 @@
+<script type="text/javascript">
+    RED.nodes.registerType('logic',{
+        category: 'PiCubes',
+        color: '#c6dbef',
+        defaults: {
+		    name: {value:""},
+            operator: {value:"Or"},
+			number: {value:"2"},
+			topicX : {value:""},
+            topicY0 : {value:""},		
+            topicY1 : {value:""},
+            topicY2 : {value:""},
+			topicY3 : {value:""}			
+        },
+        inputs:1,
+        outputs:1,
+        align: "right",
+        icon: "function.png",
+        label: function() {
+		    if (this.name == "") return this.operator;
+			else                 return this.operator+"->"+this.name;
+        },
+        oneditprepare: function() 
+		{
+			$("#node-input-operator").change(function() {
+				var nameid = $("#node-input-operator option:selected").val();
+
+				if (nameid == "Not") 
+				{
+				   $("#node-input-number-div").hide();
+				   $("#node-input-topicX-div").show();
+				   $("#node-input-topicY0-div").hide();
+				   $("#node-input-topicY1-div").hide();
+				   $("#node-input-topicY2-div").hide();
+				   $("#node-input-topicY3-div").hide();
+				   return;
+				}      	 
+				$("#node-input-topicY0-div").show();
+				$("#node-input-topicY1-div").show();
+				if ((nameid =="Or") || (nameid =="And") || (nameid =="Xor"))
+				{
+				   $("#node-input-number-div").show();
+				   $("#node-input-topicX-div").hide();
+				}
+				if (nameid =="Mux")
+				{
+				   $("#node-input-number-div").show();
+				   $("#node-input-topicX-div").show();
+				}
+			});
+			$("#node-input-number").change(function() {
+				var id = $("#node-input-number option:selected").val();
+
+				if (id =="2") 
+				{
+					$("#node-input-topicY2-div").hide();
+					$("#node-input-topicY3-div").hide();
+				} else
+				if (id =="3") 
+				{
+					$("#node-input-topicY2-div").show();
+					$("#node-input-topicY3-div").hide();
+				} else			
+				if (id =="4") 
+				{
+					$("#node-input-topicY2-div").show();
+					$("#node-input-topicY3-div").show();
+				}
+			});			
+        }		
+    });
+</script>
+
+<script type="text/x-red" data-template-name="logic">
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-operator"><i class="icon-tag"></i> Type</label>
+        <select id="node-input-operator" style="width:125px !important">
+            <option value="Or">Or</option>
+            <option value="And">And</option>
+            <option value="Not">Not</option>
+            <option value="Xor">Xor</option>
+            <option value="Mux">Mux</option>
+        </select>
+    </div>
+    <div class="form-row hidden" id="node-input-number-div">
+        <label for="node-input-number"><i class="icon-tag"></i> Inputs</label>
+        <select id="node-input-number" style="width:125px !important">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+    </div>	
+	
+	<div class="form-row hidden" id="node-input-topicX-div">
+        <label for="node-input-topicX"><i class="icon-tag"></i> Topic X</label>
+        <input type="text" id="node-input-topicX" placeholder="Topic X">
+    </div>	
+	
+	<div class="form-row" id="node-input-topicY0-div">
+        <label for="node-input-topicY0"><i class="icon-tag"></i> Topic Y0</label>
+        <input type="text" id="node-input-topicY0" placeholder="Topic Y0">
+    </div>
+
+	<div class="form-row" id="node-input-topicY1-div">
+        <label for="node-input-topicY1"><i class="icon-tag"></i> Topic Y1</label>
+        <input type="text" id="node-input-topicY1" placeholder="Topic Y1">
+    </div>
+
+	<div class="form-row hidden" id="node-input-topicY2-div">
+        <label for="node-input-topicY2"><i class="icon-tag"></i> Topic Y2</label>
+        <input type="text" id="node-input-topicY2" placeholder="Topic Y2">
+    </div>
+
+	<div class="form-row hidden" id="node-input-topicY3-div">
+        <label for="node-input-topicY3"><i class="icon-tag"></i> Topic Y3</label>
+        <input type="text" id="node-input-topicY3" placeholder="Topic Y3">
+    </div>
+	
+</script>
+
+<script type="text/x-red" data-help-name="logic">
+    <p>Logic Functions Node</p>
+</script>

@@ -1,0 +1,51 @@
+<script type="text/javascript">
+    RED.nodes.registerType('writeDO',{
+        category: 'PiCubes',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            module: {value:"1"},
+            output: {value:"1"}
+            
+        },
+        inputs:1,
+        outputs:1,
+        align: "right",
+        icon: "picubes.png",
+        label: function() {
+			if (this.name == "") return "writeDO";
+			else                 return "writeDO"+"->"+this.name;
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="writeDO">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-module"><i class="icon-list"></i> Module</label>
+        <select id="node-input-module" style="width:125px !important">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+    </div>  
+    <div class="form-row">
+        <label for="node-input-output"><i class="icon-list"></i> Output</label>
+        <select id="node-input-output" style="width:125px !important">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+    </div>      
+</script>
+
+<script type="text/x-red" data-help-name="writeDO">
+    <p>Node that controls Pi-Cubes DO4 modules</p>
+</script>

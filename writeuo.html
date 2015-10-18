@@ -1,0 +1,81 @@
+<script type="text/javascript">
+    RED.nodes.registerType('writeUO',{
+        category: 'PiCubes',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            module: {value:"1"},
+            output: {value:"1"},
+			uotype: {value:"0"},
+			pwm: {value:"2"}
+			
+            
+        },
+        inputs:1,
+        outputs:1,
+        align: "right",
+        icon: "picubes.png",
+        label: function() {
+			if (this.name == "") return "writeUO";
+			else                 return "writeUO"+"->"+this.name;
+        },
+        oneditprepare: function() 
+		{
+			$("#node-input-uotype").change(function() {
+				var id = $("#node-input-uotype option:selected").val();
+				
+				if (id == "2") $("#time-row-interval").show();
+				else 		   $("#time-row-interval").hide();
+			});
+			$(".node-input-pwm-count").spinner({
+                max:255,
+                min:2
+            });
+        }		
+    });
+</script>
+
+<script type="text/x-red" data-template-name="writeUO">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-module"><i class="icon-list"></i> Module</label>
+        <select id="node-input-module" style="width:125px !important">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+    </div>  
+    <div class="form-row">
+        <label for="node-input-output"><i class="icon-list"></i> Output</label>
+        <select id="node-input-output" style="width:125px !important">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-uotype"><i class="icon-list"></i> Type</label>
+        <select id="node-input-uotype" style="width:155px !important">
+            <option value="0">Digital Output</option>
+            <option value="1">Modulation</option>
+            <option value="2">PWM</option>
+        </select>
+    </div>	
+	
+    <div class="form-row time-row hidden" id="time-row-interval">
+		<label for="node-input-pwm"></label>
+        <input id="node-input-pwm" style="width: 40px !important;" class="node-input-pwm-count" value="2"> Seconds</input>
+    </div>
+	
+</script>
+
+<script type="text/x-red" data-help-name="writeUO">
+    <p>Node that controls Pi-Cubes UO4 modules</p>
+</script>

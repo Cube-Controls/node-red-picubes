@@ -1,0 +1,47 @@
+<script type="text/javascript">
+    RED.nodes.registerType('constant',{
+        category: 'PiCubes',
+        color: '#c6dbef',
+        defaults: {
+		    name: {value:""},
+            value: {value:"0"},
+			repeat: {value:"5"}
+        },
+        inputs:0,
+        outputs:1,
+        icon: "inject.png",
+        label: function() {
+			if (this.name == "") return "constant";
+			else                 return "constant"+"->"+this.name;
+        },
+        oneditprepare: function() 
+		{
+			$(".node-input-repeat-class").spinner({
+                max:255,
+                min:1
+            });
+        }		
+    });
+</script>
+
+<script type="text/x-red" data-template-name="constant">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+	
+    <div class="form-row">
+        <label for="node-input-value"><i class="icon-tag"></i> Value</label>
+        <input type="number" step="any" id="node-input-value" placeholder="Value">
+    </div>
+    	
+    <div class="form-row time-row" id="node-input-repeat-div">
+		<label for="node-input-repeat"><i class="icon-time"></i> Repeat</label>
+        <input id="node-input-repeat" style="width: 40px !important;" class="node-input-repeat-class" value="5"> Seconds</input>
+    </div>
+	
+</script>
+
+<script type="text/x-red" data-help-name="constant">
+    <p>Constant Function Node</p>
+</script>
