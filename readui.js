@@ -1,5 +1,8 @@
 module.exports = function(RED) {
     var pic = require('node-picubes');
+	var time = require('time');
+	
+	I2CInUse = 0;
     
     function readUINode(config) {
         RED.nodes.createNode(this,config);
@@ -13,24 +16,31 @@ module.exports = function(RED) {
 		this.interval_id = null;
 		var node = this;
 		var value = 0;
+		var lasttime = time.time() - 2 * parseInt(node.scan);
 			
 
 		// Set interval
 		this.interval_id = setInterval(function()
 							{
+								if (time.time() < (lasttime + parseInt(node.scan))) return;
+							    if (I2CInUse == 1) return;
+								I2CInUse = 1;
 							    // read UI module 
 								pic.readUI(parseInt(node.module),parseInt(node.input),parseInt(node.uitype),function(err,data)
 								{
-								if (err) node.log(err);
+									if (err) node.log(err);
 						  
-								if (data != null) 
-								{
-								    value = data;
-									// emit on input
-									node.emit("input",{});
-								}	
+									if (data != null) 
+									{
+										value = data;
+										// emit on input
+										node.emit("input",{});
+									}	
+									I2CInUse = 0;
 								}); 
-							},this.scan*1000);
+							    // remember time from last read
+			                    lasttime = time.time();	
+							},this.scan*100);
 		                     
 		this.on('input', function(msg) 
 						{

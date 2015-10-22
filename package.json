@@ -1,7 +1,7 @@
 {
   "name": "node-red-picubes",
-  "version": "1.0.1",
-  "description": "Pi-Cubes Nodes for node-red",
+  "version": "1.0.2",
+  "description": "Pi-Cubes Modular Raspberry Pi HVAC System Node-RED SDK.",
   "dependencies": {
     "node-picubes": "^1.0.4",
     "time": "^0.11.4"
@@ -12,7 +12,9 @@
   },
   "keywords": [
     "node-red",
-	"pi-cubes"
+	"pi-cubes",
+	"hvac",
+	"automation"
   ],
   "author": "Dalibor Zaric <dal@cube-controls.com>",
   "license": "MIT",  
