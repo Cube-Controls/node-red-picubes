@@ -1,7 +1,79 @@
 module.exports = function(RED) {
     var pic = require('node-picubes');
-	var time = require('time');
-	portInUse = 0;
+	var myCTAJobList = new Array();
+	
+	function CTAServer()
+	{
+	    var node, slave, regaddr, scale, name, value;
+		
+		function read_cta()
+		{
+			pic.readCTA(parseInt(slave),parseInt(node.regaddr),function(err,data)
+			{
+				if (err) node.log(err);
+				
+				if (data != null) 
+				{
+				    // read data
+					var value = parseInt(data);
+					// convert to signed
+					if (value > 32768) value = value - 65536;
+					// read CTA
+							
+				
+					// conversion
+					if (scale != 1) value = parseFloat(scale) * value;
+							
+					value = value.toFixed(1);
+						    
+					node.status({fill:"green",shape:"dot",text: value.toString()});
+						
+					var msg = {topic:node.name, payload:Number(value)};
+					
+					node.send(msg);
+							
+					msg = null;
+				} else 
+				{
+					node.status({fill:"red",shape:"dot",text: "nan"});
+				}
+				
+				setTimeout(CTAServer, 500);
+			}); 
+		}// End read_cta
+		
+		function write_cta()
+		{
+			pic.writeCTA(parseInt(slave),parseInt(regaddr),value*(1/scale),function(err)
+			{	
+				if (err) node.log(err);
+				
+				
+				setTimeout(CTAServer, 500);
+			
+			});
+		}// End write_cta
+		
+		// check if array list is not empty
+		if (myCTAJobList.length != 0)
+		{
+			var jobCTA = myCTAJobList.shift();
+			
+			slave = jobCTA.slaveAddr;
+			node = jobCTA.nodeObj;
+			regaddr = jobCTA.regAddr;
+			scale = jobCTA.scale;
+			name = jobCTA.name;
+			value = jobCTA.value;
+			
+			if (jobCTA.jobType == "read") read_cta(); else
+				if (jobCTA.jobType == "write") write_cta(); else setTimeout(CTAServer, 500);
+		} else setTimeout(CTAServer, 500);
+	}
+	
+	// schedule the first invocation:
+	setTimeout(CTAServer, 1000);
+	
     
     function CTANode(config) {
         RED.nodes.createNode(this,config);
@@ -14,70 +86,24 @@ module.exports = function(RED) {
 		this.scan = config.scan;
 		this.interval_id = null;
 		var node = this;
-		var value = 0;
-		var lasttime = time.time() - 2 * parseInt(node.scan);
-		var writeflag = 0;
-		var writevalue = 0;
 		
-		function write_cta()
-		{
-			pic.writeCTA(parseInt(node.slave),parseInt(node.regaddr),writevalue,function(err)
-			{	
-				if (err) node.log(err);
-				
-				portInUse = 0;
-			});
-		}
-		
-		
-		function read_cta()
-		{
-			pic.readCTA(parseInt(node.slave),parseInt(node.regaddr),function(err,data)
-			{
-				if (err) node.log(err);
-				
-				portInUse = 0;
-				if (data != null) 
-				{
-					value = data;
-					// read CTA
-				
-					// conversion
-					if (node.scale != 1) value = parseFloat(node.scale) * value;
-							
-					value = value.toFixed(1);
-						    
-					node.status({fill:"green",shape:"dot",text: value.toString()});
-						
-					var msg = {topic:node.name, payload:Number(value)};
-					
-					node.send(msg);
-							
-					msg = null;
-				}
-			}); 
-			// remember time from last read
-			lasttime = time.time();	
-		}
 
 		// Set interval
 		this.interval_id = setInterval(function()
 							{
-							    if (time.time() < (lasttime + parseInt(node.scan))) return;
-							    if (portInUse == 1) return;
-								portInUse = 1;
-								if (writeflag==1)
-								{
-								   write_cta();
-								   writeflag = 0
-								} else read_cta(); // read UI modul
-							},300);
+							    // create job
+							    var ctaJob = { jobType:"read", slaveAddr:node.slave , regAddr:node.regaddr, scale:node.scale, nodeObj:node, name:node.name, value:0 };
+								// push job to array
+								myCTAJobList.push(ctaJob);
+									
+							},this.scan*1000);
 		                     
 		this.on('input', function(msg) 
 						{
-							// setup write flag 
-							writeflag = 1;
-							writevalue = msg.payload*(1/node.scale);
+							// create job
+							var ctaJob = { jobType:"write", slaveAddr:node.slave , regAddr:node.regaddr, scale:node.scale, nodeObj:node, name:node.name, value:msg.payload };
+							// push job to array
+							myCTAJobList.push(ctaJob);
 						});
 	
 	}

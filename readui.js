@@ -40,7 +40,7 @@ module.exports = function(RED) {
 								}); 
 							    // remember time from last read
 			                    lasttime = time.time();	
-							},this.scan*100);
+							},100);
 		                     
 		this.on('input', function(msg) 
 						{
